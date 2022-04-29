@@ -55,6 +55,7 @@
         this.autoUpdateInput = true;
         this.alwaysShowCalendars = false;
         this.ranges = {};
+        this.initStartDate = this.startDate;
 
         this.opens = 'right';
         if (this.element.hasClass('pull-right'))
@@ -451,6 +452,12 @@
         constructor: DateRangePicker,
 
         setStartDate: function(startDate) {
+            let flagNotUpdateInitStartDate = false;
+            if (!startDate && this.singleDatePicker) {
+                flagNotUpdateInitStartDate = true;
+                this.initStartDate = null;
+                startDate = moment();
+            }
             if (typeof startDate === 'string')
                 this.startDate = moment(startDate, this.locale.format);
 
@@ -477,6 +484,8 @@
 
             if (!this.isShowing)
                 this.updateElement();
+            if (!flagNotUpdateInitStartDate)
+                this.initStartDate = this.startDate.clone();
 
             this.updateMonthsInView();
         },
@@ -807,13 +816,25 @@
                     if (this.isInvalidDate(calendar[row][col]))
                         classes.push('off', 'disabled');
 
-                    //highlight the currently selected start date
-                    if (calendar[row][col].format('YYYY-MM-DD') == this.startDate.format('YYYY-MM-DD'))
-                        classes.push('active', 'start-date');
-
-                    //highlight the currently selected end date
-                    if (this.endDate != null && calendar[row][col].format('YYYY-MM-DD') == this.endDate.format('YYYY-MM-DD'))
-                        classes.push('active', 'end-date');
+                    if (this.singleDatePicker) {
+                        if (this.initStartDate) {
+                            //highlight the currently selected start date
+                            if (calendar[row][col].format('YYYY-MM-DD') == this.startDate.format('YYYY-MM-DD'))
+                                classes.push('active', 'start-date');
+        
+                            //highlight the currently selected end date
+                            if (this.endDate != null && calendar[row][col].format('YYYY-MM-DD') == this.endDate.format('YYYY-MM-DD'))
+                                classes.push('active', 'end-date');
+                        }
+                    } else {
+                        //highlight the currently selected start date
+                        if (calendar[row][col].format('YYYY-MM-DD') == this.startDate.format('YYYY-MM-DD'))
+                            classes.push('active', 'start-date');
+    
+                        //highlight the currently selected end date
+                        if (this.endDate != null && calendar[row][col].format('YYYY-MM-DD') == this.endDate.format('YYYY-MM-DD'))
+                            classes.push('active', 'end-date');
+                    }
 
                     //highlight dates in-between the selected dates
                     if (this.endDate != null && calendar[row][col] > this.startDate && calendar[row][col] < this.endDate)
@@ -1134,10 +1155,20 @@
 
             // Reposition the picker if the window is resized while it's open
             $(window).on('resize.daterangepicker', $.proxy(function(e) { this.move(e); }, this));
-
-            this.oldStartDate = this.startDate.clone();
-            this.oldEndDate = this.endDate.clone();
-            this.previousRightTime = this.endDate.clone();
+            this.oldStartDate  = null;
+            this.oldEndDate = null;
+            if (!this.startDate) {
+                this.initStartDate = null;
+                this.startDate = moment();
+                this.oldStartDate = moment("01/01/1200", "MM/DD/YYYY");
+            } else {
+                this.isNullStartDateSinglePicker = true;
+                this.oldStartDate = this.startDate.clone();
+            }
+            if (this.endDate) {
+                this.oldEndDate = this.endDate.clone();
+                this.previousRightTime = this.endDate.clone();
+            }
 
             this.updateView();
             this.container.show();
@@ -1156,7 +1187,7 @@
             }
 
             //if a new date range was selected, invoke the user callback function
-            if (!this.startDate.isSame(this.oldStartDate) || !this.endDate.isSame(this.oldEndDate))
+            if (!this.startDate.isSame(this.oldStartDate) || !this.endDate.isSame(this.oldEndDate) && this.initStartDate)
                 this.callback(this.startDate.clone(), this.endDate.clone(), this.chosenLabel);
 
             //if picker is attached to a text input, update it
