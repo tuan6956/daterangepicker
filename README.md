@@ -14,7 +14,7 @@ This is a fork of "dangrossman/daterangepicker" plugin. For complete documentati
 #### Usage
 
 ```
-npm i daterangepicker-dayjs
+npm i daterangepicker_dayjs
 ```
 
 #### Demo
