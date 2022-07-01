@@ -11,7 +11,23 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.3/dayjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.3/plugin/localeData.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.3/plugin/localizedFormat.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.3/plugin/isoWeek.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.3/plugin/weekday.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.3/plugin/arraySupport.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.3/plugin/badMutable.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.3/plugin/weekOfYear.min.js"></script>
+        <script>
+          dayjs.extend(window.dayjs_plugin_localeData)
+          dayjs.extend(window.dayjs_plugin_localizedFormat)
+          dayjs.extend(window.dayjs_plugin_isoWeek)
+          dayjs.extend(window.dayjs_plugin_arraySupport);
+          dayjs.extend(window.dayjs_plugin_badMutable);
+          // optional. Required when "showWeekNumbers" is true
+          dayjs.extend(window.dayjs_plugin_weekOfYear);
+        </script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.2.1/trianglify.min.js"></script>
 
         <script type="text/javascript" src="daterangepicker.js"></script>
@@ -110,7 +126,7 @@
                     <h1><a id="usage" href="#usage">Getting Started</a></h1>
 
                     <p>
-                        To get started, include jQuery, Moment.js and Date Range Picker's files in your webpage:
+                        To get started, include jQuery, Dayjs.js and Date Range Picker's files in your webpage:
                     </p>
 
                     <script src="https://gist.github.com/dangrossman/4879503153c6a7a0b3b6ebd64e0383b7.js"></script>
@@ -129,7 +145,7 @@
                             <input type="text" name="dates" class="form-control pull-right" />
                             <script>
                                 $(function() {
-                                    $('input[name="dates"]').daterangepicker({ startDate: moment(), endDate: moment().add(2, 'day')});
+                                    $('input[name="dates"]').daterangepicker({ startDate: dayjs(), endDate: dayjs().add(2, 'day')});
                                 })
                             </script>
                         </div>
@@ -182,8 +198,8 @@
                                 $(function() {
                                   $('input[name="datetimes"]').daterangepicker({
                                     timePicker: true,
-                                    startDate: moment().startOf('hour'),
-                                    endDate: moment().startOf('hour').add(32, 'hour'),
+                                    startDate: dayjs().startOf('hour'),
+                                    endDate: dayjs().startOf('hour').add(32, 'hour'),
                                     locale: {
                                       format: 'M/DD hh:mm A'
                                     }
@@ -212,9 +228,9 @@
                                     singleDatePicker: true,
                                     showDropdowns: true,
                                     minYear: 1901,
-                                    maxYear: parseInt(moment().format('YYYY'),10)
+                                    maxYear: parseInt(dayjs().format('YYYY'),10)
                                   }, function(start, end, label) {
-                                    var years = moment().diff(start, 'years');
+                                    var years = dayjs().diff(start, 'years');
                                     alert("You are " + years + " years old!");
                                   });
                                 });
@@ -242,8 +258,8 @@
                                 <script type="text/javascript">
                                 $(function() {
 
-                                    var start = moment().subtract(29, 'days');
-                                    var end = moment();
+                                    var start = dayjs().subtract(29, 'days');
+                                    var end = dayjs();
 
                                     function cb(start, end) {
                                         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -253,12 +269,12 @@
                                         startDate: start,
                                         endDate: end,
                                         ranges: {
-                                           'Today': [moment(), moment()],
-                                           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                                           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                                           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                                           'This Month': [moment().startOf('month'), moment().endOf('month')],
-                                           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                                           'Today': [dayjs(), dayjs()],
+                                           'Yesterday': [dayjs().subtract(1, 'days'), dayjs().subtract(1, 'days')],
+                                           'Last 7 Days': [dayjs().subtract(6, 'days'), dayjs()],
+                                           'Last 30 Days': [dayjs().subtract(29, 'days'), dayjs()],
+                                           'This Month': [dayjs().startOf('month'), dayjs().endOf('month')],
+                                           'Last Month': [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
                                         }
                                     }, cb);
 
@@ -323,7 +339,7 @@
                             <code>maxDate</code>: (Date or string) The latest date a user may select.
                         </li>
                         <li>
-                            <code>maxSpan</code>: (object) The maximum span between the selected start and end dates. Check off <code>maxSpan</code> in the configuration generator for an example of how to use this. You can provide any object the <code>moment</code> library would let you add to a date.
+                            <code>maxSpan</code>: (object) The maximum span between the selected start and end dates. Check off <code>maxSpan</code> in the configuration generator for an example of how to use this. You can provide any object the <code>dayjs</code> library would let you add to a date.
                         </li>
                         <li>
                             <code>showDropdowns</code>: (true/false) Show year and month select boxes above calendars to jump to a specific month and year.
