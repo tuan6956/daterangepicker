@@ -14,7 +14,7 @@ This is a fork of "dangrossman/daterangepicker" plugin. For complete documentati
 #### Usage
 
 ```
-npm i daterangepicker_dayjs
+npm i daterangepicker-use-dayjs
 ```
 
 #### Demo
@@ -29,20 +29,6 @@ import $ from "jquery";
 import dayjs from "dayjs";
 import "daterangepicker-dayjs/daterangepicker";
 import "daterangepicker-dayjs/daterangepicker.css";
-
-// Plugins
-import localeData from "dayjs/plugin/localeData";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import isoWeek from "dayjs/plugin/isoWeek";
-import arraySupport from "dayjs/plugin/arraySupport";
-import badMutable from "dayjs/plugin/badMutable";
-
-// Load plugins
-dayjs.extend(localeData);
-dayjs.extend(localizedFormat);
-dayjs.extend(isoWeek);
-dayjs.extend(arraySupport);
-dayjs.extend(badMutable);
 
 // Simple Date Range Picker
 $('input[name="dates"]').daterangepicker();

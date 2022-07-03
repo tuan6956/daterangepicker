@@ -30,7 +30,37 @@
     }
 }(typeof window !== 'undefined' ? window : this, function(dayjs, $) {
     var DateRangePicker = function(element, options, cb) {
+        var updateLocale = require('dayjs/plugin/updateLocale')
+        var customParseFormat = require('dayjs/plugin/customParseFormat')
+        var isoWeek = require('dayjs/plugin/isoWeek')
+        var localeData = require('dayjs/plugin/localeData')
+        var localizedFormat = require('dayjs/plugin/localizedFormat')
+        var weekday = require('dayjs/plugin/weekday')
+        var arraySupport = require('dayjs/plugin/arraySupport')
+        var badMutable = require('dayjs/plugin/badMutable')
+        var weekOfYear = require('dayjs/plugin/weekOfYear')
+        var advancedFormat = require('dayjs/plugin/advancedFormat')
+        var relativeTime = require('dayjs/plugin/relativeTime')
+        var calendar = require('dayjs/plugin/calendar')
 
+        dayjs.extend(updateLocale);
+        dayjs.extend(customParseFormat) 
+        dayjs.extend(isoWeek);
+        dayjs.extend(localeData);
+        dayjs.extend(localizedFormat);
+        dayjs.extend(weekday);
+        dayjs.extend(arraySupport);
+        dayjs.extend(badMutable);
+        dayjs.extend(weekOfYear);
+        dayjs.extend(advancedFormat);
+        dayjs.extend(relativeTime);
+        dayjs.extend(calendar);
+
+        dayjs.updateLocale('vi', {
+          weekdays: ["Thứ 2","Thứ 3","Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"],
+          weekdaysShort: ["Thứ 2","Thứ 3","Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"],
+          weekdaysMin: ["CN", "T2","T3","T4", "T5", "T6", "T7"],
+        })
         //default settings for options
         this.parentEl = 'body';
         this.element = $(element);

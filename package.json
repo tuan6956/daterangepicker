@@ -1,11 +1,13 @@
 {
-  "name": "daterangepicker_dayjs",
-  "version": "3.1.1",
+  "name": "daterangepicker-use-dayjs",
+  "version": "3.1.2",
   "description": "Date range picker component for Bootstrap",
   "main": "daterangepicker.js",
   "style": "daterangepicker.css",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,7 @@
   "homepage": "https://github.com/tuan6956/daterangepicker_dayjs",
   "dependencies": {
     "dayjs": "^1.11.3",
+    "gh-pages": "^4.0.0",
     "jquery": ">=1.10"
   }
 }
